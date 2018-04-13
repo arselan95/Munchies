@@ -199,6 +199,7 @@
 										<div class="col-md-12">
 											<hr>
 											<a class="banner banner-1" href="TransactionAPI">
+											<a class="banner banner-1" href="./beverages.jsp">
 												<img src="./img/drinks.jpg" alt="">
 												<div class="banner-caption text-center">
 													<h2 class="white-color">NEW COLLECTION</h2>

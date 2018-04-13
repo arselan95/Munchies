@@ -121,6 +121,8 @@
 									<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
 								</div>
 								<p alt = <a href="./login/login.html" class="text-uppercase">Login</a> / <a href="./register/register.html" class="text-uppercase">Join</a>${name}</p>
+								<p><a href="./login/login.html" class="text-uppercase">Login</a></p>
+								<p><a href="./register/register.html" class="text-uppercase">Join</a>${name}</p>
 								<ul class="custom-menu">
 									<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
 									<li><a href="./checkout.html"><i class="fa fa-check"></i> Checkout</a></li>

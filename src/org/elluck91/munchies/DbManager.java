@@ -31,7 +31,6 @@ public class DbManager implements IRepo{
 
 	@Override
 	public int Login(String username, String password) {
-
 		try {
 
 			Class.forName("com.mysql.jdbc.Driver");
@@ -43,7 +42,13 @@ public class DbManager implements IRepo{
 
 
 			ResultSet res=  sql.executeQuery();
+
 			res.next();
+
+
+			res.next();
+			System.out.println("Result: " + res.getInt(1));
+
 
 			return res.getInt(1);
 

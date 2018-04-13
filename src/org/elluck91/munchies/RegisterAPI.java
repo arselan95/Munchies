@@ -41,8 +41,6 @@ public class RegisterAPI extends HttpServlet {
 	protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
 		if(request.getParameter("Register") != null){
-			System.out.println("Hello2");
-
 			DbManager db = new DbManager();
 
 			User user = new User();
@@ -59,10 +57,13 @@ public class RegisterAPI extends HttpServlet {
 				response.sendRedirect("./register.jsp?reg=done");
 			else {
 				response.sendRedirect("./register.jsp?reg=duplicate");
+				response.sendRedirect("./log.jsp");
 			}
 		}
-		
-	}
+			else {
+				response.sendRedirect("./reg.jsp");
+			}
+		}
 
 	/**
 	 * @see HttpServlet#doPut(HttpServletRequest, HttpServletResponse)

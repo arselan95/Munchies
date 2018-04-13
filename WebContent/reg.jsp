@@ -341,6 +341,7 @@
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="user" placeholder="Username">
+								<input class="input" type="text" name="username" placeholder="Username">
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="pass" placeholder="Password">

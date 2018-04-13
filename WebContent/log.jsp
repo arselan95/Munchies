@@ -336,10 +336,15 @@
 							</div>
 								<h3 class="title">Login</h3>
 							<div class="form-group">
+
 								<input class="input" type="email" name="username" placeholder="Email">
 							</div>
 							<div class="form-group">
 								<input class="input" type="text" name="password" placeholder="Password">
+								<input class="input" name="username" placeholder="Username">
+							</div>
+							<div class="form-group">
+								<input class="input" type="text" name="pass" placeholder="Password">
 							</div>
 							<div class="form-group">
 								<div class="input-checkbox">
