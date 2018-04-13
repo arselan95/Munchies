@@ -1,4 +1,5 @@
 <!DOCTYPE html>
+<%@ taglib prefix="c" uri="http://java.sun.com/jsp/jstl/core" %>
 <html lang="en">
 
 <head>
@@ -6,11 +7,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-	
-	<!-- Tab Icon-->
 	<link rel = "icon" href = "./img/MunchiesLogo.jpg">
-	
-	<title>Baking</title>
+	<title>Munchies</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -37,60 +35,24 @@
 		  <script src="https://oss.maxcdn.com/html5shiv/3.7.3/html5shiv.min.js"></script>
 		  <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
 		<![endif]-->
-		
-
 
 </head>
 
 <body>
-	<%@ taglib prefix = "c" uri = "http://java.sun.com/jsp/jstl/core" %>
 	<!-- HEADER -->
 	<header>
-		<!-- top Header -->
-		<div id="top-header">
-			<div class="container">
-				<div class="pull-left">
-					<span>Welcome to Munchies!</span>
-				</div>
-				<div class="pull-right">
-					<ul class="header-top-links">
-						<li><a href="#">Store</a></li>
-						<li><a href="#">Newsletter</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">English (ENG)</a></li>
-								<li><a href="#">Russian (Ru)</a></li>
-								<li><a href="#">French (FR)</a></li>
-								<li><a href="#">Spanish (Es)</a></li>
-							</ul>
-						</li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">USD ($)</a></li>
-								<li><a href="#">EUR (€)</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /top Header -->
-
 		<!-- header -->
 		<div id="header">
 			<div class="container">
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="./index.html">
+						<a class="logo" href="index.jsp">
 							<img src="./img/MunchiesLogoCrop.jpg" alt="">
 						</a>
 					</div>
 					<!-- /Logo -->
-					
+
 					<!-- Search -->
 					<div class="header-search">
 						<form>
@@ -101,7 +63,7 @@
 								<option value="1">Baking</option>
 								<option value="1">Breakfast & Cereal</option>
 								<option value="1">Frozen Food</option>
-								<option value="1">Meat</option>
+								<option value="1">Grains & Pasta</option>
 								<option value="1">Produce</option>
 							</select>
 							<button class="search-btn"><i class="fa fa-search"></i></button>
@@ -117,14 +79,24 @@
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
 								</div>
-								<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
+								<strong class="text-uppercase">My Account<i class="fa fa-caret-down"></i></strong>
 							</div>
-							<a href="./login/login.html" class="text-uppercase">Login</a> / <a href="./register/register.html" class="text-uppercase">Join</a>
+							<% 
+								String username = (String) session.getAttribute("userid");
+								if (username == null){
+							%>
+							<a href="./login.jsp" class="text-uppercase">Login</a> / <a href="./register.jsp" class="text-uppercase">Join</a>
+							<%
+								}else {
+							%>
+							<a>Hi, <%= request.getSession().getAttribute("userid")%></a>
+							<a href = "LogoutAPI">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+								<% }%>
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="./checkout.html"><i class="fa fa-check"></i> Checkout</a></li>
-								<li><a href="./login/login.html"><i class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="./register/register.html"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+								<li><a href="./checkout.jsp"><i class="fa fa-check"></i> Checkout</a></li>
+								<li><a href="./login.jsp"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="./register.jsp"><i class="fa fa-user-plus"></i> Create An Account</a></li>
 							</ul>
 						</li>
 						<!-- /Account -->
@@ -134,11 +106,27 @@
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">#</span>
+									<%
+										if (request.getSession().getAttribute("cart") == null){
+									%>
+									<span class="qty">0</span>
+									<% 
+										}else {
+									%>
+									<span class="qty"><%= request.getSession().getAttribute("quantity")%></span>
+									<%} %>
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
-								<span>#</span>
+								<%
+									if (request.getSession().getAttribute("cart") == null){
+								%>
+								<span>$0.00</span>
+									<%
+									}else {
+									%>
+									<span>$ <%= request.getSession().getAttribute("total")%></span>
+									<%}%>
 							</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
@@ -148,7 +136,7 @@
 												<img src="./img/thumb-product01.jpg" alt="">
 											</div>
 											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+												<h3 class="product-price"># <span class="qty">#</span></h3>
 												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
 											</div>
 											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
@@ -158,7 +146,7 @@
 												<img src="./img/thumb-product01.jpg" alt="">
 											</div>
 											<div class="product-body">
-												<h3 class="product-price">$32.50 <span class="qty">x3</span></h3>
+												<h3 class="product-price">#<span class="qty">#</span></h3>
 												<h2 class="product-name"><a href="#">Product Name Goes Here</a></h2>
 											</div>
 											<button class="cancel-btn"><i class="fa fa-trash"></i></button>
@@ -166,7 +154,7 @@
 									</div>
 									<div class="shopping-cart-btns">
 										<button class="main-btn">View Cart</button>
-										<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+										<button class="primary-btn" href = "checkout.jsp">Checkout <i class="fa fa-arrow-circle-right"></i></button>
 									</div>
 								</div>
 							</div>
@@ -196,109 +184,30 @@
 				<div class="category-nav show-on-click">
 					<div class="category-nav">
 						<span class="category-header">Categories <i class="fa fa-list"></i></span>
-						<ul class="category-list">
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Beverages<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="./beverages.html">
-												<img src="./img/drinks.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Baking<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="./baking.html">
-												<img src="./img/cupcake.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn" href="./baking.html">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Breakfast & Cereal<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="breakfast.html">
-												<img src="./img/cereal.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Frozen Foods<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="frozenfood.html">
-												<img src="./img/ben.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Grains & Pasta<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="grain.html">
-												<img src="./img/pasta.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
-							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Produce<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="produce.html">
-												<img src="./img/produce.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
-							</li>
+						<ul class="category-list">			
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=beverages">Beverages<i class="fa fa-angle-right"></i></a>
+								</li>
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=baking">Baking<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=breakfast">Breakfast & Cereal<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=frozenfood">Frozen Foods<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=grain&pasta">Grains & Pasta<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=produce">Produce<i class="fa fa-angle-right"></i></a>
+								</li>
+							</form>
 						</ul>
 					</div>
 				</div>
@@ -308,7 +217,7 @@
 				<div class="menu-nav">
 					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
 					<ul class="menu-list">
-						<li><a href="./index.html">Home</a></li>
+						<li><a href="./index.jsp">Home</a></li>
 						<li><a href="#">Shop</a></li>
 					</ul>
 				</div>
@@ -318,6 +227,7 @@
 		<!-- /container -->
 	</div>
 	<!-- /NAVIGATION -->
+
 
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
@@ -340,17 +250,9 @@
 				<div id="aside" class="col-md-3">
 					<!-- aside widget -->
 					<div class="aside">
-						<h3 class="aside-title">Category:</h3>
-						<button class="primary-btn">Clear All</button>
+						<h3 class="aside-title">Category: </h3>
 					</div>
 					<!-- /aside widget -->
-
-					<!-- aside widget -->
-					<div class="aside">
-						<h3 class="aside-title">Filter by Price</h3>
-						
-					</div>
-					<!-- aside widget -->
 				</div>
 				<!-- /ASIDE -->
 
@@ -363,40 +265,13 @@
 								<a href="#"><i class="fa fa-th-large"></i></a>
 								<a href="#" class="active"><i class="fa fa-bars"></i></a>
 							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
 						</div>
 					</div>
 					<!-- /store top filter -->
 
 					<!-- STORE -->
-				<form action ="BakingServlet" method = "get">
-					<c:if test = "${list not empty}">
-						<c:forEach items="${list}" var = record>
+				<form action ="CategoryAPI" method = "get">
+						<c:forEach items = "${list}" var = "record">
 							<div id="store">
 								<!-- row -->
 								<div class="row">
@@ -407,7 +282,7 @@
 												<div class="product-label">
 												</div>
 												<button class="main-btn quick-view"><i class="fa fa-search-plus"></i> Quick view</button>
-												<img src="${record.picture}" alt="./foodimg/baking/baking3.jpeg">
+												<img src=${record.picture} alt =" Image not found">
 											</div>
 											<div class="product-body">
 												<h3 class="product-price">
@@ -422,7 +297,7 @@
 												</div>
 												<h2 class="product-name">
 													<a href="#">
-														<c:out value = "${record.price}"/>
+														<c:out value = "${record.name}"/>
 													</a>
 												</h2>
 												<div class="product-btns">
@@ -442,46 +317,8 @@
 								<!-- /row -->
 							</div>
 						</c:forEach>
-					</c:if>	
 				</form>
 					<!-- /STORE -->
-
-					<!-- store bottom filter -->
-					<div class="store-filter clearfix">
-						<div class="pull-left">
-							<div class="row-filter">
-								<a href="#"><i class="fa fa-th-large"></i></a>
-								<a href="#" class="active"><i class="fa fa-bars"></i></a>
-							</div>
-							<div class="sort-filter">
-								<span class="text-uppercase">Sort By:</span>
-								<select class="input">
-										<option value="0">Position</option>
-										<option value="0">Price</option>
-										<option value="0">Rating</option>
-									</select>
-								<a href="#" class="main-btn icon-btn"><i class="fa fa-arrow-down"></i></a>
-							</div>
-						</div>
-						<div class="pull-right">
-							<div class="page-filter">
-								<span class="text-uppercase">Show:</span>
-								<select class="input">
-										<option value="0">10</option>
-										<option value="1">20</option>
-										<option value="2">30</option>
-									</select>
-							</div>
-							<ul class="store-pages">
-								<li><span class="text-uppercase">Page:</span></li>
-								<li class="active">1</li>
-								<li><a href="#">2</a></li>
-								<li><a href="#">3</a></li>
-								<li><a href="#"><i class="fa fa-caret-right"></i></a></li>
-							</ul>
-						</div>
-					</div>
-					<!-- /store bottom filter -->
 				</div>
 				<!-- /MAIN -->
 			</div>

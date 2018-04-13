@@ -6,8 +6,8 @@
 	<meta http-equiv="X-UA-Compatible" content="IE=edge">
 	<meta name="viewport" content="width=device-width, initial-scale=1">
 	<!-- The above 3 meta tags *must* come first in the head; any other head content must come *after* these tags -->
-
-	<title>E-SHOP HTML Template</title>
+	<link rel = "icon" href = "./img/MunchiesLogo.jpg">
+	<title>Munchies</title>
 
 	<!-- Google font -->
 	<link href="https://fonts.googleapis.com/css?family=Hind:400,700" rel="stylesheet">
@@ -40,46 +40,13 @@
 <body>
 	<!-- HEADER -->
 	<header>
-		<!-- top Header -->
-		<div id="top-header">
-			<div class="container">
-				<div class="pull-left">
-					<span>Welcome to Munchies!</span>
-				</div>
-				<div class="pull-right">
-					<ul class="header-top-links">
-						<li><a href="#">Store</a></li>
-						<li><a href="#">Newsletter</a></li>
-						<li><a href="#">FAQ</a></li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">ENG <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">English (ENG)</a></li>
-								<li><a href="#">Russian (Ru)</a></li>
-								<li><a href="#">French (FR)</a></li>
-								<li><a href="#">Spanish (Es)</a></li>
-							</ul>
-						</li>
-						<li class="dropdown default-dropdown">
-							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">USD <i class="fa fa-caret-down"></i></a>
-							<ul class="custom-menu">
-								<li><a href="#">USD ($)</a></li>
-								<li><a href="#">EUR (â¬)</a></li>
-							</ul>
-						</li>
-					</ul>
-				</div>
-			</div>
-		</div>
-		<!-- /top Header -->
-
 		<!-- header -->
 		<div id="header">
 			<div class="container">
 				<div class="pull-left">
 					<!-- Logo -->
 					<div class="header-logo">
-						<a class="logo" href="#">
+						<a class="logo" href="index.jsp">
 							<img src="./img/MunchiesLogoCrop.jpg" alt="">
 						</a>
 					</div>
@@ -111,14 +78,24 @@
 								<div class="header-btns-icon">
 									<i class="fa fa-user-o"></i>
 								</div>
-								<strong class="text-uppercase">My Account <i class="fa fa-caret-down"></i></strong>
+								<strong class="text-uppercase">My Account<i class="fa fa-caret-down"></i></strong>
 							</div>
-							<a href="./log.jsp" class="text-uppercase">Login</a> / <a href="./reg.jsp" class="text-uppercase">Join</a>
+							<% 
+								String username = (String) session.getAttribute("userid");
+								if (username == null){
+							%>
+							<a href="./login.jsp" class="text-uppercase">Login</a> / <a href="./register.jsp" class="text-uppercase">Join</a>
+							<%
+								}else {
+							%>
+							<a>Hi, <%= request.getSession().getAttribute("userid")%></a>
+							<a href = "LogoutAPI">&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;Logout</a>
+								<% }%>
 							<ul class="custom-menu">
 								<li><a href="#"><i class="fa fa-user-o"></i> My Account</a></li>
-								<li><a href="./checkout.html"><i class="fa fa-check"></i> Checkout</a></li>
-								<li><a href="./log.jsp"><i class="fa fa-unlock-alt"></i> Login</a></li>
-								<li><a href="./reg.jsp"><i class="fa fa-user-plus"></i> Create An Account</a></li>
+								<li><a href="./checkout.jsp"><i class="fa fa-check"></i> Checkout</a></li>
+								<li><a href="./login.jsp"><i class="fa fa-unlock-alt"></i> Login</a></li>
+								<li><a href="./register.jsp"><i class="fa fa-user-plus"></i> Create An Account</a></li>
 							</ul>
 						</li>
 						<!-- /Account -->
@@ -128,11 +105,27 @@
 							<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">
 								<div class="header-btns-icon">
 									<i class="fa fa-shopping-cart"></i>
-									<span class="qty">#</span>
+									<%
+										if (request.getSession().getAttribute("cart") == null){
+									%>
+									<span class="qty">0</span>
+									<% 
+										}else {
+									%>
+									<span class="qty"><%= request.getSession().getAttribute("quantity")%></span>
+									<%} %>
 								</div>
 								<strong class="text-uppercase">My Cart:</strong>
 								<br>
-								<span>#</span>
+								<%
+									if (request.getSession().getAttribute("cart") == null){
+								%>
+								<span>$0.00</span>
+									<%
+									}else {
+									%>
+									<span>$ <%= request.getSession().getAttribute("total")%></span>
+									<%}%>
 							</a>
 							<div class="custom-menu">
 								<div id="shopping-cart">
@@ -160,7 +153,7 @@
 									</div>
 									<div class="shopping-cart-btns">
 										<button class="main-btn">View Cart</button>
-										<button class="primary-btn">Checkout <i class="fa fa-arrow-circle-right"></i></button>
+										<button class="primary-btn" href = "checkout.jsp">Checkout <i class="fa fa-arrow-circle-right"></i></button>
 									</div>
 								</div>
 							</div>
@@ -190,108 +183,75 @@
 				<div class="category-nav show-on-click">
 					<div class="category-nav">
 						<span class="category-header">Categories <i class="fa fa-list"></i></span>
+						<ul class="category-list">			
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=beverages">Beverages<i class="fa fa-angle-right"></i></a>
+								</li>
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=baking">Baking<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=breakfast">Breakfast & Cereal<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=frozenfood">Frozen Foods<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=grain&pasta">Grains & Pasta<i class="fa fa-angle-right"></i></a>
+								</li>
+							
+								<li class="dropdown side-dropdown">
+									<a class="dropdown-toggle" href = "http://localhost:8080/WebContent/CategoryAPI?category=produce">Produce<i class="fa fa-angle-right"></i></a>
+								</li>
+							</form>
+						</ul>
+					</div>
+				</div>
+				<!-- /category nav -->
+
+				<!-- menu nav -->
+				<div class="menu-nav">
+					<span class="menu-header">Menu <i class="fa fa-bars"></i></span>
+					<ul class="menu-list">
+						<li><a href="./index.jsp">Home</a></li>
+						<li><a href="#">Shop</a></li>
+					</ul>
+				</div>
+				<!-- menu nav -->
+			</div>
+		</div>
+		<!-- /container -->
+	</div>
+	<!-- /NAVIGATION -->
+	<div id="navigation">
+		<!-- container -->
+		<div class="container">
+			<div id="responsive-nav">
+				<!-- category nav -->
+				<div class="category-nav show-on-click">
+					<div class="category-nav">
+						<span class="category-header">Categories <i class="fa fa-list"></i></span>
 						<ul class="category-list">
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Beverages<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="./beverages.jsp">
-												<img src="./img/drinks.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "beverages.jsp">Beverages<i class="fa fa-angle-right"></i></a>
 							</li>
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Baking<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="./baking.jsp">
-												<img src="./img/cupcake.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn" href="./baking.jsp">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "baking.jsp">Baking<i class="fa fa-angle-right"></i></a>
 							</li>
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Breakfast & Cereal<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="breakfast.jsp">
-												<img src="./img/cereal.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "breakfast.jsp">Breakfast & Cereal<i class="fa fa-angle-right"></i></a>
 							</li>
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Frozen Foods<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="frozenfood.jsp">
-												<img src="./img/ben.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "frozenfood.jsp">Frozen Foods<i class="fa fa-angle-right"></i></a>
 							</li>
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Grains & Pasta<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="grain.jsp">
-												<img src="./img/pasta.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "grain.jsp">Grains & Pasta<i class="fa fa-angle-right"></i></a>
 							</li>
 							<li class="dropdown side-dropdown">
-								<a class="dropdown-toggle" data-toggle="dropdown" aria-expanded="true">Produce<i class="fa fa-angle-right"></i></a>
-								<div class="custom-menu">
-									<div class="row hidden-sm hidden-xs">
-										<div class="col-md-12">
-											<hr>
-											<a class="banner banner-1" href="produce.jsp">
-												<img src="./img/produce.jpg" alt="">
-												<div class="banner-caption text-center">
-													<h2 class="white-color">NEW COLLECTION</h2>
-													<button class="primary-btn">VIEW ALL</button>
-												</div>
-											</a>
-										</div>
-									</div>
-								</div>
+								<a class="dropdown-toggle" href = "produce.jsp">Produce<i class="fa fa-angle-right"></i></a>
 							</li>
 						</ul>
 					</div>
@@ -313,6 +273,7 @@
 	</div>
 	<!-- /NAVIGATION -->
 
+
 	<!-- BREADCRUMB -->
 	<div id="breadcrumb">
 		<div class="container">
@@ -321,8 +282,8 @@
 				<li class="active">Checkout</li>
 			</ul>
 		</div>
-	</div>
 	<!-- /BREADCRUMB -->
+	</div>
 
 	<!-- section -->
 	<div class="section">
@@ -330,123 +291,24 @@
 		<div class="container">
 			<!-- row -->
 			<div class="row">
-				<form id="checkout-form" class="clearfix" action = "./BillingAPI">
+				<form id="checkout-form" class="clearfix" action = "LoginAPI" method = "post">
 					<div class="col-md-6">
 						<div class="billing-details">
-							<p>Already a customer ? <a href="#">Login</a></p>
+							
 							<div class="section-title">
-								<h3 class="title">Billing Details</h3>
+							</div>
+								<h3 class="title">Login</h3>
+							<div class="form-group">
+
+								<input class="input" type="text" name="username" placeholder="Username">
 							</div>
 							<div class="form-group">
-								<input class="input" type="text" name="name" placeholder="Name">
-							</div>
-							<div class="form-group">
-								<input class="input" type="email" name="email" placeholder="Email">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="address" placeholder="Address">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="city" placeholder="City">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="country" placeholder="Country">
-							</div>
-							<div class="form-group">
-								<input class="input" type="text" name="zip-code" placeholder="ZIP Code">
-							</div>
-							<div class="form-group">
-								<input class="input" type="tel" name="tel" placeholder="Telephone">
+								<input class="input" type="password" name="pass" placeholder="Password">
 							</div>
 							<div class="form-group">
 								<div class="input-checkbox">
-									<input type="checkbox" id="register">
-									<label class="font-weak" for="register">Create Account?</label>
-									<div class="caption">
-										<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt.
-											<p>
-												<input class="input" type="password" name="password" placeholder="Enter Your Password">
-									</div>
+									<button name = "Login" class="primary-btn" type ="submit">Login</button>
 								</div>
-							</div>
-						</div>
-					</div>
-
-					<div class="col-md-6">
-						<div class="shiping-methods">
-							<div class="section-title">
-								<h4 class="title">Shiping Methods</h4>
-							</div>
-							<div class="input-checkbox">
-								<input type="radio" name="shipping" id="shipping-1" checked>
-								<label for="shipping-1">Free Shiping -  $0.00</label>
-								<div class="caption">
-									<p>Guaranteed within 3-5 business days
-										<p>
-								</div>
-							</div>
-							<div class="input-checkbox">
-								<input type="radio" name="shipping" id="shipping-2">
-								<label for="shipping-2">Standard - $4.00</label>
-								<div class="caption">
-									<p>Guaranteed within 1-2 business days
-										<p>
-								</div>
-							</div>
-						</div>
-					</div>
-					<div class="col-md-12">
-						<div class="order-summary clearfix">
-							<div class="section-title">
-								<h3 class="title">Order Review</h3>
-							</div>
-							<table class="shopping-cart-table table">
-								<thead>
-									<tr>
-										<th>Product</th>
-										<th></th>
-										<th class="text-center">Price</th>
-										<th class="text-center">Quantity</th>
-										<th class="text-center">Total</th>
-										<th class="text-right"></th>
-									</tr>
-								</thead>
-								<tbody>
-									<tr>
-										<td class="thumb"><img src="./img/thumb-product01.jpg" alt=""></td>
-										<td class="details">
-											<a href="#">Product Name Goes Here</a>
-											<ul>
-												<li><span>Description</span></li>
-												
-											</ul>
-										</td>
-										<td class="price text-center"><strong>price</strong><br></td>
-										<td class="qty text-center"><input class="input" type="number" value="1"></td>
-										<td class="total text-center"><strong class="primary-color">$32.50</strong></td>
-										<td class="text-right"><button class="main-btn icon-btn"><i class="fa fa-close"></i></button></td>
-									</tr>
-								</tbody>
-								<tfoot>
-									<tr>
-										<th class="empty" colspan="3"></th>
-										<th>SUBTOTAL</th>
-										<th colspan="2" class="sub-total">$97.50</th>
-									</tr>
-									<tr>
-										<th class="empty" colspan="3"></th>
-										<th>SHIPING</th>
-										<td colspan="2">Free Shipping</td>
-									</tr>
-									<tr>
-										<th class="empty" colspan="3"></th>
-										<th>TOTAL</th>
-										<th colspan="2" class="total">$97.50</th>
-									</tr>
-								</tfoot>
-							</table>
-							<div class="pull-right">
-								<button class="primary-btn">Place Order</button>
 							</div>
 						</div>
 
@@ -471,7 +333,7 @@
 						<!-- footer logo -->
 						<div class="footer-logo">
 							<a class="logo" href="#">
-		            <img src="./img/logo.png" alt="">
+		            <img src="./img/MunchiesLogo.jpg" alt="">
 		          </a>
 						</div>
 						<!-- /footer logo -->
