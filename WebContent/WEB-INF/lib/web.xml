@@ -21,48 +21,24 @@
                       http://xmlns.jcp.org/xml/ns/javaee/web-app_3_1.xsd"
   version="3.1"
   metadata-complete="true">
-  <display-name>Munchies</display-name>
-  <welcome-file-list>
-    <welcome-file>index.html</welcome-file>
-    <welcome-file>index.htm</welcome-file>
-    <welcome-file>index.jsp</welcome-file>
-    <welcome-file>default.html</welcome-file>
-    <welcome-file>default.htm</welcome-file>
-    <welcome-file>default.jsp</welcome-file>
-  </welcome-file-list>
 
   <display-name>Welcome to Tomcat</display-name>
-  <error-page>
-	<error-code>404</error-code>
-	<location>/404error.jsp</location>
-  </error-page>
   <servlet>
-    <servlet-name>RegisterAPI</servlet-name>
-    <servlet-class>org.elluck91.munchies.RegisterAPI</servlet-class>
+	<servlet-name>RegisterAPI</servlet-name>
+	<servlet-class>org.elluck91.munchies.RegisterAPI</servlet-class>
+  </servlet>
+   <servlet>
+	<servlet-name>LoginAPI</servlet-name>
+	<servlet-class>org.elluck91.munchies.LoginAPI</servlet-class>
   </servlet>
   <servlet-mapping>
     <servlet-name>RegisterAPI</servlet-name>
-    <url-pattern>/RegisterAPI</url-pattern>
+    <url-pattern>/register</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <servlet-name>LoginAPI</servlet-name>
-    <servlet-class>org.elluck91.munchies.LoginAPI</servlet-class>
-  </servlet>
   <servlet-mapping>
     <servlet-name>LoginAPI</servlet-name>
-    <url-pattern>/LoginAPI</url-pattern>
+    <url-pattern>/login</url-pattern>
   </servlet-mapping>
-  <servlet>
-    <description></description>
-    <display-name>CategoryAPI</display-name>
-    <servlet-name>CategoryAPI</servlet-name>
-    <servlet-class>org.elluck91.munchies.CategoryAPI</servlet-class>
-  </servlet>
-  <servlet-mapping>
-    <servlet-name>CategoryAPI</servlet-name>
-    <url-pattern>/CategoryAPI</url-pattern>
-  </servlet-mapping>
-  
+	
 
 </web-app>
-
